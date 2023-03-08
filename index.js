@@ -71,6 +71,6 @@ app.post("/get_file", (req, res, next) => {
       console.log(error);
     });
 });
-var servers = app.listen(3012, function () {
-  console.log("app started on port 3012");
+var servers = app.listen(process.env.PORT|| 5000, function () {
+  console.log("app started on port 5000");
 });
