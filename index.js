@@ -20,6 +20,10 @@ const dbx = new Dropbox({
   clientSecret: 'nhxm9uo7r1wodnn',
   refreshToken: 'mjcX8muY27gAAAAAAAAAAX8Rq5HfDBqaBIqQIumGebw8zZLwnH_MVBTT43eeC_2K'
 });
+app.get('/',(req,res)=>
+{
+  res.send("hello")
+})
 app.get("/check", (req, res) => {
   // var dbx = new Dropbox({
   //   accessToken:
