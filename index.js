@@ -15,18 +15,18 @@ app.use(cors());
 var fetch = require("isomorphic-fetch"); // or another library of choice.
 var Dropbox = require("dropbox").Dropbox;
 
-const dbx = new Dropbox({ 
-  clientId: '1qn6e332jh9hak8',
-  clientSecret: '1tl3agf65eshbnv',
-  refreshToken: '63tjLcof9gIAAAAAAAAAASlNWnP5gWm1FBai4pglKuw8WGRyKmGxXo3rXN4scgkz'
+const dbx = new Dropbox({
+  clientId: "1qn6e332jh9hak8",
+  clientSecret: "1tl3agf65eshbnv",
+  refreshToken:
+    "63tjLcof9gIAAAAAAAAAASlNWnP5gWm1FBai4pglKuw8WGRyKmGxXo3rXN4scgkz",
 });
-app.get('/',(req,res)=>
-{
+app.get("/search", (req, res) => {
   output().then((result) => {
     res.send(result);
   });
   // res.send("hello")
-})
+});
 async function output() {
   // console.log("out");
   j = j + 1;
@@ -102,6 +102,6 @@ app.post("/get_file", (req, res, next) => {
       console.log(error);
     });
 });
-var servers = app.listen(process.env.PORT|| 5000, function () {
+var servers = app.listen(process.env.PORT || 5000, function () {
   console.log("app started on port 5000");
 });
