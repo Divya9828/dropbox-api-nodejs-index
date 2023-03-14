@@ -11,6 +11,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(cors());
+var folder_path = [];
+var file_path = [];
+var path_name = "";
+var j = -1;
 
 var fetch = require("isomorphic-fetch"); // or another library of choice.
 var Dropbox = require("dropbox").Dropbox;
@@ -34,7 +38,7 @@ async function output() {
   // console.log("out");
   j = j + 1;
   await dbx.filesListFolder({ path: path_name }).then(async (response) => {
-    console.log(response.result.entries);
+    // console.log(response.result.entries);
     response.result.entries.map((data) => {
       if (data[".tag"] == "file") {
         file_path.push(data.path_lower);
@@ -47,12 +51,16 @@ async function output() {
     if (j < folder_path.length) {
       await output().then((result) => {
         // return {folder_path,file_path}
-        return [folder_path, file_path];
+          return [folder_path, file_path];
+
       });
     }
   });
   // return {folder_path,file_path}
-  return [folder_path, file_path];
+  // return [folder_path, file_path];
+    return [folder_path, file_path];
+
+ 
 }
 app.get("/check", (req, res) => {
   // var dbx = new Dropbox({
