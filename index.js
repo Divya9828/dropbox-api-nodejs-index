@@ -28,48 +28,56 @@ const dbx = new Dropbox({
 app.get("/",(req,res)=>{
   res.send("hello")
 })
-app.get("/search", (req, res) => {
-  output().then((result) => {
-    res.send(result);
+// search 
+app.post("/vicky", (req, res,next) => {
+  var fileName=req.body.searchName;
+  console.log(fileName);
+  dbx.filesSearchV2({ query: fileName }).then((response) => {
+    // console.log(response.result.matches);
+    const test=response.result.matches
+    const d=test.map(({match_type,metadata:{metadata},...rest})=>{
+      return {metadata}
+    })
+    // console.log("****",d);
+    res.send(d);
   });
-  // res.send("hello")
 });
-async function output() {
-  // console.log("out");
-  j = j + 1;
-  await dbx.filesListFolder({ path: path_name }).then(async (response) => {
-    // console.log(response.result.entries);
-    response.result.entries.map((data) => {
-      if (data[".tag"] == "file") {
-        file_path.push(data.path_lower);
-      }
-      if (data[".tag"] == "folder") {
-        folder_path.push(data.path_lower);
-      }
-    });
-    path_name = folder_path[j];
-    if (j < folder_path.length) {
-      await output().then((result) => {
-        // return {folder_path,file_path}
-          return [folder_path, file_path];
+// app.get("/search", (req, res) => {
+//   output().then((result) => {
+//     res.send(result);
+//   });
+//   // res.send("hello")
+// });
+// async function output() {
+//   // console.log("out");
+//   j = j + 1;
+//   await dbx.filesListFolder({ path: path_name }).then(async (response) => {
+//     // console.log(response.result.entries);
+//     response.result.entries.map((data) => {
+//       if (data[".tag"] == "file") {
+//         file_path.push(data.path_lower);
+//       }
+//       if (data[".tag"] == "folder") {
+//         folder_path.push(data.path_lower);
+//       }
+//     });
+//     path_name = folder_path[j];
+//     if (j < folder_path.length) {
+//       await output().then((result) => {
+//         // return {folder_path,file_path}
+//           return [folder_path, file_path];
 
-      });
-    }
-  });
-  // return {folder_path,file_path}
-  // return [folder_path, file_path];
-    return [folder_path, file_path];
+//       });
+//     }
+//   });
+//   // return {folder_path,file_path}
+//   // return [folder_path, file_path];
+//     return [folder_path, file_path];
 
  
-}
+// }
+// retrieve all folder in main page
 app.get("/check", (req, res) => {
-  // var dbx = new Dropbox({
-  //   accessToken:
-  //     "LZp4psyQNaAAAAAAAAAASnEV5PbqvcziOw0OGSQeXWM",
-  //   fetch: fetch,
-  // });
-  // const { Dropbox } = require('dropbox');
-
   dbx
     .filesListFolder({ path: "" })
     .then(function (response) {
@@ -82,6 +90,7 @@ app.get("/check", (req, res) => {
       res.json();
     });
 });
+// select particular folder and file
 app.post("/receive", function (req, res, next) {
   var filename = req.body.text;
   dbx
@@ -93,6 +102,7 @@ app.post("/receive", function (req, res, next) {
       console.log(error);
     });
 });
+// download file
 app.post("/get_file", (req, res, next) => {
   var pathname = req.body.filePath;
   // res.send(pathname)
