@@ -21,6 +21,9 @@ const dbx = new Dropbox({
   refreshToken:
     "63tjLcof9gIAAAAAAAAAASlNWnP5gWm1FBai4pglKuw8WGRyKmGxXo3rXN4scgkz",
 });
+app.get("/",(req,res)=>{
+  res.send("hello")
+})
 app.get("/search", (req, res) => {
   output().then((result) => {
     res.send(result);
